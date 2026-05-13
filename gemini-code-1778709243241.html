@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinay Writes | Admin & Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .page { display: none; }
+        .active { display: block !important; }
+        .admin-only { display: none; }
+        body.admin-mode .admin-only { display: block; }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+    <!-- NAVIGATION -->
+    <nav class="p-5 flex justify-between items-center bg-zinc-900 sticky top-0 z-50">
+        <h1 class="text-2xl font-bold text-red-500 cursor-pointer" onclick="showHome()">Vinay Writes</h1>
+        <button id="admin-toggle" onclick="toggleAdmin()" class="bg-zinc-800 px-4 py-2 rounded-lg text-sm">Admin Login</button>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page active">
+        <section class="min-h-[60vh] flex flex-col justify-center items-center text-center p-6 bg-gradient-to-b from-black to-zinc-900">
+            <h1 class="text-6xl font-bold text-red-500 mb-4">Vinay Writes</h1>
+            <p class="text-xl text-zinc-400">Screenplays, Thrillers & Cinematic Concepts</p>
+        </section>
+
+        <section class="py-10 px-6">
+            <h2 class="text-3xl font-bold mb-10 text-center">Featured Stories</h2>
+            <div id="story-grid" class="grid md:grid-cols-3 gap-8">
+                <!-- Stories will be injected here -->
+            </div>
+        </section>
+
+        <!-- ADMIN: ADD STORY FORM -->
+        <section class="admin-only py-20 px-6 bg-zinc-950 border-t border-red-900">
+            <h2 class="text-3xl font-bold text-red-500 text-center mb-8">Admin: Post New Concept</h2>
+            <form id="story-form" class="max-w-xl mx-auto space-y-4 bg-zinc-900 p-8 rounded-3xl">
+                <input type="text" id="title" placeholder="Story Title" class="w-full p-3 rounded bg-zinc-800" required>
+                <input type="text" id="imgUrl" placeholder="Poster Image Link" class="w-full p-3 rounded bg-zinc-800">
+                <textarea id="desc" placeholder="Short Summary for User" class="w-full p-3 rounded bg-zinc-800"></textarea>
+                <textarea id="fullStory" placeholder="Full Script / Links / Content" class="w-full p-3 h-40 rounded bg-zinc-800"></textarea>
+                <button type="submit" class="w-full bg-red-600 py-3 rounded-xl font-bold">Publish Story</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- STORY DETAILS PAGE -->
+    <div id="details-page" class="page p-6 md:p-20 bg-black min-h-screen">
+        <button onclick="showHome()" class="text-red-500 mb-10 font-bold">← Back to Portfolio</button>
+        <div id="details-content" class="max-w-4xl mx-auto"></div>
+        
+        <!-- COMMENT SECTION -->
+        <div class="max-w-4xl mx-auto mt-20 border-t border-zinc-800 pt-10">
+            <h3 class="text-2xl font-bold mb-6">Comments</h3>
+            <div id="comment-list" class="space-y-4 mb-8">
+                <!-- Comments appear here -->
+            </div>
+            <div class="bg-zinc-900 p-6 rounded-2xl">
+                <textarea id="user-comment" placeholder="Leave a comment or feedback..." class="w-full p-3 rounded bg-zinc-800 mb-4"></textarea>
+                <button onclick="postComment()" class="bg-red-600 px-6 py-2 rounded-lg font-bold">Post Comment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAdmin = false;
+        let stories = JSON.parse(localStorage.getItem('vinay_stories')) || [];
+        let comments = JSON.parse(localStorage.getItem('vinay_comments')) || {};
+
+        function toggleAdmin() {
+            const pass = prompt("Enter Admin Password:");
+            if(pass === "vinay123") { // Meeru password marchukovachhu
+                isAdmin = !isAdmin;
+                document.body.classList.toggle('admin-mode', isAdmin);
+                document.getElementById('admin-toggle').innerText = isAdmin ? "Logout" : "Admin Login";
+                renderStories();
+            } else {
+                alert("Wrong Password!");
+            }
+        }
+
+        function renderStories() {
+            const grid = document.getElementById('story-grid');
+            grid.innerHTML = stories.map((s, i) => `
+                <div class="bg-zinc-900 p-5 rounded-2xl relative">
+                    ${isAdmin ? `<button onclick="deleteStory(${i})" class="absolute top-2 right-2 bg-red-600 text-white w-8 h-8 rounded-full">X</button>` : ''}
+                    <img src="${s.img || 'https://via.placeholder.com/400x250'}" class="h-48 w-full object-cover rounded-xl mb-4">
+                    <h3 class="text-2xl font-bold mb-2">${s.title}</h3>
+                    <p class="text-zinc-400 mb-4">${s.desc}</p>
+                    <button onclick="showDetails(${i})" class="w-full bg-red-600 py-2 rounded-lg font-bold">View Script</button>
+                </div>
+            `).join('');
+        }
+
+        function showDetails(index) {
+            const s = stories[index];
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('details-page').classList.add('active');
+            document.getElementById('details-content').innerHTML = `
+                <img src="${s.img}" class="w-full h-96 object-cover rounded-3xl mb-8 shadow-2xl">
+                <h1 class="text-5xl font-bold text-red-500 mb-4">${s.title}</h1>
+                <p class="text-zinc-300 text-xl leading-relaxed whitespace-pre-line">${s.story}</p>
+            `;
+            renderComments(s.title);
+            window.scrollTo(0,0);
+        }
+
+        function showHome() {
+            document.getElementById('details-page').classList.remove('active');
+            document.getElementById('home-page').classList.add('active');
+        }
+
+        document.getElementById('story-form').onsubmit = function(e) {
+            e.preventDefault();
+            const newStory = {
+                title: document.getElementById('title').value,
+                img: document.getElementById('imgUrl').value,
+                desc: document.getElementById('desc').value,
+                story: document.getElementById('fullStory').value
+            };
+            stories.push(newStory);
+            localStorage.setItem('vinay_stories', JSON.stringify(stories));
+            renderStories();
+            this.reset();
+        };
+
+        function deleteStory(index) {
+            if(confirm("Are you sure you want to delete this story?")) {
+                stories.splice(index, 1);
+                localStorage.setItem('vinay_stories', JSON.stringify(stories));
+                renderStories();
+            }
+        }
+
+        function postComment() {
+            const text = document.getElementById('user-comment').value;
+            const currentStory = document.querySelector('#details-content h1').innerText;
+            if(!comments[currentStory]) comments[currentStory] = [];
+            comments[currentStory].push({ text, date: new Date().toLocaleDateString(), reply: "" });
+            localStorage.setItem('vinay_comments', JSON.stringify(comments));
+            renderComments(currentStory);
+            document.getElementById('user-comment').value = "";
+        }
+
+        function renderComments(title) {
+            const list = document.getElementById('comment-list');
+            const storyComments = comments[title] || [];
+            list.innerHTML = storyComments.map((c, i) => `
+                <div class="bg-zinc-800 p-4 rounded-xl">
+                    <p class="text-zinc-200">${c.text}</p>
+                    <small class="text-zinc-500">${c.date}</small>
+                    ${c.reply ? `<div class="mt-2 ml-6 p-2 bg-zinc-700 rounded-lg text-red-400">Vinay: ${c.reply}</div>` : ''}
+                    ${isAdmin ? `<button onclick="replyComment('${title}', ${i})" class="text-xs text-red-500 mt-2 block">Reply</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function replyComment(title, index) {
+            const rep = prompt("Your Reply:");
+            if(rep) {
+                comments[title][index].reply = rep;
+                localStorage.setItem('vinay_comments', JSON.stringify(comments));
+                renderComments(title);
+            }
+        }
+
+        renderStories();
+    </script>
+</body>
+</html>
