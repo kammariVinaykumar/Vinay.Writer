@@ -14,7 +14,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html, body { height: 100%; margin: 0; padding: 0; background-color: #000; }
-        #auth-page { display: grid; place-items: center; min-height: 100vh; width: 100vw; }
         .page { display: none; }
         .active { display: block !important; }
         .hidden { display: none !important; }
@@ -27,13 +26,6 @@
             background: rgba(0,0,0,0.95); z-index: 100000; justify-content: center; align-items: center; text-align: center;
         }
         @media print { body { display: none !important; } }
-
-        /* --- Custom Script Formatting Colors --- */
-        .sc-heading { color: #dc2626; font-weight: 900; text-transform: uppercase; margin-top: 1.5rem; margin-bottom: 0.5rem; block-size: auto; }
-        .sc-shot { color: #ea580c; font-weight: 700; font-style: italic; }
-        .sc-char { color: #facc15; font-weight: 800; tracking-wide: 0.1em; margin-top: 1rem; display: block; }
-        .sc-dialogue { color: #e4e4e7; font-weight: 500; padding-left: 1rem; border-left: 2px solid #3f3f46; margin-bottom: 1rem; display: block; }
-        .sc-action { color: #a1a1aa; font-style: italic; }
     </style>
 </head>
 <body class="bg-black text-white font-sans selection:bg-none no-select" oncontextmenu="return false;" onclick="handleSecretTap(event)">
@@ -45,46 +37,17 @@
         </div>
     </div>
 
-    <div id="auth-page" class="bg-zinc-950 p-6">
-        <div class="max-w-md w-full bg-zinc-900 p-10 rounded-[2.5rem] border border-zinc-800 shadow-2xl">
-            <h1 class="text-4xl font-black text-red-600 text-center mb-10 italic uppercase tracking-tighter">Vinay Writes</h1>
-            <div id="login-form-div">
-                <form id="login-form" class="space-y-5">
-                    <input type="email" id="login-email" placeholder="Email Address" class="w-full p-4 rounded-2xl bg-black border border-zinc-800 outline-none focus:border-red-600 transition text-white" required>
-                    <input type="password" id="login-pass" placeholder="Password" class="w-full p-4 rounded-2xl bg-black border border-zinc-800 outline-none focus:border-red-600 transition text-white" required>
-                    <button type="submit" class="w-full bg-red-600 py-4 rounded-2xl font-black uppercase hover:bg-red-700 transition tracking-widest">Login</button>
-                </form>
-                <p class="text-center mt-8 text-zinc-500 text-sm italic">New reader? <button onclick="toggleAuthForms()" class="text-red-500 font-bold underline">Register here</button></p>
-            </div>
-            <div id="register-form-div" class="hidden">
-                <form id="register-form" class="space-y-4">
-                    <input type="text" id="reg-name" placeholder="Full Name" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                    <div class="flex gap-2">
-                        <input type="number" id="reg-age" placeholder="Age" class="w-1/2 p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                        <input type="text" id="reg-city" placeholder="City" class="w-1/2 p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                    </div>
-                    <input type="email" id="reg-email" placeholder="Email Address" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                    <input type="password" id="reg-pass" placeholder="Create Password" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                    <input type="password" id="reg-repass" placeholder="Re-enter Password" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-red-600 text-white" required>
-                    <button type="submit" class="w-full bg-red-600 py-4 rounded-xl font-black uppercase hover:bg-red-700 transition tracking-widest mt-4">Create Account</button>
-                </form>
-                <p class="text-center mt-8 text-zinc-500 text-sm italic">Already have account? <button onclick="toggleAuthForms()" class="text-red-500 font-bold underline">Login</button></p>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-content" class="hidden">
+    <div id="main-content">
         <nav class="p-5 flex justify-between items-center bg-zinc-900 sticky top-0 z-50 border-b border-zinc-800">
             <h1 class="text-2xl font-bold text-red-500 cursor-pointer" onclick="showHome()">Vinay Writes</h1>
             <div class="flex items-center gap-4">
-                <button id="auth-nav-btn" onclick="handleNavAction()" class="text-zinc-500 text-xs font-bold uppercase tracking-widest hover:text-white transition">Logout</button>
                 <button id="view-toggle" onclick="toggleAdmin()" class="hidden bg-zinc-800 px-4 py-2 rounded-full text-xs font-bold border border-zinc-700 uppercase">LOGOUT ADMIN</button>
             </div>
         </nav>
 
         <div id="home-page" class="page active">
             <header class="user-view-only pt-20 pb-12 px-6 text-center bg-gradient-to-b from-zinc-900 to-black">
-                <h2 id="welcome-user" class="text-red-500 font-bold tracking-[0.3em] mb-4 uppercase text-sm">Welcome Reader</h2>
+                <h2 class="text-red-500 font-bold tracking-[0.3em] mb-4 uppercase text-sm">Writer Portfolio</h2>
                 <h1 class="text-4xl md:text-8xl font-black mb-6 leading-tight uppercase italic text-white">Stories That <br><span class="text-red-600">Hit Different.</span></h1>
                 <div class="flex flex-col items-center gap-4 mt-6">
                     <h3 class="text-xl font-black uppercase tracking-widest italic text-zinc-400">Read My Stories</h3>
@@ -122,7 +85,6 @@
                     <form id="story-form" class="space-y-4">
                         <input type="hidden" id="edit-index" value="-1">
                         <input type="text" id="title" placeholder="Story Title" class="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 text-white outline-none font-bold" required>
-                        <input type="hidden" id="image-url" value="">
                         
                         <select id="category" class="w-full p-4 rounded-xl bg-zinc-900 border border-zinc-800 text-white outline-none font-bold" required>
                             <option value="">Choose Category...</option>
@@ -130,7 +92,7 @@
                             <option value="Movie Scenes">Movie Scenes</option>
                             <option value="Serial Content">Serial Content</option>
                         </select>
-                        <textarea id="fullStory" placeholder="Full script content... (You can use HTML tags here for colors)" class="w-full p-4 h-60 rounded-xl bg-zinc-900 border border-zinc-800 text-white outline-none font-mono text-sm" required></textarea>
+                        <textarea id="fullStory" placeholder="Full script content..." class="w-full p-4 h-60 rounded-xl bg-zinc-900 border border-zinc-800 text-white outline-none font-mono text-sm" required></textarea>
                         <button type="submit" id="submit-btn" class="w-full bg-red-600 py-4 rounded-xl font-black text-lg hover:bg-red-700 transition uppercase text-white">Publish Story</button>
                     </form>
                 </div>
@@ -162,31 +124,238 @@
 
     <script>
         let isAdmin = false;
-        let currentUser = null;
-        let currentFilter = 'Serial Content'; 
-        let registeredUsers = JSON.parse(localStorage.getItem('vinay_site_users')) || [];
+        let currentFilter = 'Short Film Stories'; 
         let comments = JSON.parse(localStorage.getItem('vinay_vfinal_comments')) || {};
         let currentStoryIndex = -1;
 
-        // --- నీ కథను కలర్‌ఫుల్ ఫార్మాట్‌లో ఇక్కడే అప్‌డేట్ చేసాను బ్రో! ---
+        // --- నీ 'WATER BOY' పూర్తి స్క్రిప్ట్ కలర్స్‌తో ఇక్కడే లోడ్ అయి ఉంటుంది ---
         let defaultStories = [
             {
-                title: "VAMSAVRUKSHAM SERIAL - EPISODE 1",
-                category: "Serial Content",
-                story: `<div class="sc-heading">SCENE 1: INT. HOUSE - DAY</div>
-<div class="sc-action">రఘురామ్ హాల్లో కూర్చుని పాత ఫోటో ఆల్బమ్ చూస్తూ ఉంటాడు. అతని ముఖంలో ఏదో తెలియని బాధ. వెనుక నుండి శారద కాఫీ కప్పుతో వస్తుంది.</div>
+                title: "WATER BOY",
+                category: "Short Film Stories",
+                story: `<div class="text-red-500 font-black uppercase tracking-wider text-xl mb-4">CHARACTER DESCRIPTION & LOCATIONS</div>
+<div class="mb-6">
+    <span class="text-red-600 font-bold uppercase block text-sm tracking-widest mb-2">LOCATIONS:</span>
+    <p class="text-zinc-300 pl-4">Single Bachelor Room (Hall/Bedroom), Entrance Corridor, Small Balcony.</p>
+</div>
+<div class="mb-6">
+    <span class="text-red-600 font-bold uppercase block text-sm tracking-widest mb-2">CHARACTERS:</span>
+    <p class="text-zinc-300 pl-4 mb-2"><strong class="text-white">CHARAN (25):</strong> Software Employee, thala thinnattu panic chestuntadu.</p>
+    <p class="text-zinc-300 pl-4 mb-2"><strong class="text-white">DELIVERY BOY (20s):</strong> Blank expressionless face, deep voice.</p>
+    <p class="text-zinc-300 pl-4 mb-2"><strong class="text-white">STRANGER / KILLER (30s):</strong> Psychopathic look, calm ga dangerous ga untadu.</p>
+</div>
 
-<div class="sc-char">SHARADA</div>
-<div class="sc-dialogue">ఏండీ... పొద్దున్నే ఆ పాత జ్ఞాపకాలు ఎందుకు? గడిచిపోయిన కాలాన్ని తలుచుకుంటే వచ్చేది కేవలం కన్నీళ్లే కదా.</div>
+<div class="border-t border-zinc-800 my-6"></div>
+<div class="text-red-500 font-black uppercase tracking-wider text-xl mb-6">SCREENPLAY & DIALOGUES</div>
 
-<div class="sc-char">RAGHURAM</div>
-<div class="sc-dialogue">కన్నీళ్లు కాదు శారద, అది మన వంశవృక్షం. మూలాలు లేని చెట్టు కూలిపోతుంది, అలాగే మన కుటుంబ బంధాలు కూడా...</div>
+<div class="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl font-bold text-white tracking-wide uppercase mb-4 shadow-md">
+    SCENE 1: THE SETUP - INT. CHARAN'S ROOM - NIGHT
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">VISUAL:</strong> Room antha cheekati. Kevalam laptop screen nunchi vachhe blue light matrame Charan mukham meeda paduthundi.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: MEDIUM CLOSE-UP (24fps - Cinematic Mode). iPhone ni laptop venuka petti, Charan dynamic ga typing chesthunna eyes ni focus cheyyali. Depth of field (background blur) ekkuva undali.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">AUDIO:</strong> Keyboard mechanical typing sound... chala fast ga gattiga vinpisthundi. Venuka background lo light ga fan thirige sound (Humming).
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2 italic">
+    Sudden ga... DOOR BELL MOGUTHUNDI (Tring... Tring...)
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan typing aapesthadu. Screen light lo athani moham lo chiraku kanapaduthundi. Time chusthadu: Night 11:30 PM.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: LOW ANGLE SHOT. Charan seat nunchi leschi, tana feet daggara nunchi camera door vaipu tilt avuthundi. Athanu baddakangaa, chirakugaa door vaipu nadusthadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan door handle thippi open chesthadu.
+</div>
 
-<div class="sc-heading">SCENE 2: EXT. TEMPLE - EVENING</div>
-<div class="sc-shot">[SHOT 2.1: CLOSE UP ON TEMPLE BELL]</div>
-<div class="sc-action">గుడి గంట మోగుతుంది. అంజలి పూజ పూర్తి చేసుకుని మెట్లు దిగుతూ ఉంటుంది. ఎదురుగా విక్రమ్ బైక్ పై వచ్చి ఆగుతాడు.</div>`,
-                likes: 12,
-                views: 54,
+<div class="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl font-bold text-white tracking-wide uppercase mb-4 shadow-md mt-8">
+    SCENE 2: THE ARRIVAL - EXT. CORRIDOR / INT. DOORWAY - CONTINUOUS
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: OVER THE SHOULDER (OTS) OF CHARAN. Door open avvagane, corridor light lo oka vyakthi (Delivery Boy) ninchoni untadu. Athani rendu chethulu kinda unna oka heavy 20-litre water bubble (can) paina unnay. Head down chesi untadu, cap valla mukham motham shadow lo untundi.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Chiragga, hastaga)<br>Evaru? Ee time lo?
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Delivery boy thala paiki ethuthadu. Eye contact ledhu, structural blank face.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">DELIVERY BOY</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    (Kommara, monotonous voice lo)<br>Water can sir. Rentu vandala padhi (Flat 210).
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Gungamma ga thala gokkontu)<br>Water aa? Nenu order pettalede abba... Wrong flat emo chudu.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">DELIVERY BOY</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    Online payment aypoyindi sir. Address ide undi. Uncheyamantara?
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: EXTREME CLOSE-UP (Charan's Face). Charan aalochisthadu. 'Evaro frnd order pettademo, leda company vaade mistake ga techhademo... free water ey ga' ane feeling athani expression lo ravali.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    Sare... lopaliki pettu.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: WIDE SHOT (iPhone Action Mode - 60fps). Delivery boy slow ga aa heavy can ni lift chesi room lo unna kitchen corner daggara pedthadu. Athani body language chala stiff ga, robotic ga undali. Lift chesetappudu fluid splash sound (water sound) ravali.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Athanu venakki thirigi door vaipu nadusthadu.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    Aaganna... aa empty can bayata undi, adi patthellu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Delivery boy door bayataki velli, door pakkana unna empty can ni lift chesi, silent ga corridor cheekatlo naduchukuntu vellipothadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan door ni CLICK mani gattiga lock chesthadu.
+</div>
+
+<div class="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl font-bold text-white tracking-wide uppercase mb-4 shadow-md mt-8">
+    SCENE 3: THE ODD DETAILS (SUSPENSE BUILDS) - INT. CHARAN'S ROOM - CONTINUOUS
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: PANNING SHOT. Camera Charan thoni paatu kitchen corner vaipu velthundi. Charan water bubble daggarki velthadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">EXPRESSION:</strong> Charan sudden ga static aypothadu. Confused look.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: TIGHT CLOSE-UP ON THE WATER CAN. Normal brands ki unde plastic cap ledu ikkada. Daaniki badulu heavy black insulation tape thoni multi-layers ga full tight ga seal chesi undi. Can plastic paina scratches inka matti (mud) antukoni unnay.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Thana lo Thane text ga murmur chesthu)<br>Identi... ila undi? Seal ento kothaga undi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">AUDIO (EDITOR'S CUE):</strong> Direct sound cut. Room lo unna fan sound ni fade out chesi, single WATER DROP SOUND (Drip... Drip...) structural ga play cheyyali.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: TRACKING SHOT. Charan slow ga venakki thiruguthadu. Kitchen counter kinda chusthadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">SHOCK EXPRESSION:</strong> Athani kallu peddavi avuthayi. Breathe fast avuthundi.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: POINT OF VIEW (POV) SHOT. Counter kinda... Charan thaluchukunna thana patha empty water can akkade undi!
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN (MIND VOICE / WHISPER)</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    "Patha can ikkade unte... vaadu bayata nunchi ey can tisukelladu?!"
+</div>
+
+<div class="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl font-bold text-white tracking-wide uppercase mb-4 shadow-md mt-8">
+    SCENE 4: THE HORRIFYING PHONE CALL - INT. CHARAN'S ROOM - NIGHT
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan gunde vegam peruguthundi. Dynamic ga door vaipu velthundi.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: HANDHELD MACRO SHOT (iPhone macro mode). Camera door peephole (lens) ki tight ga athukoni untundi. Charan peephole gunda bayataki chusthadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">VISUAL (Peephole View):</strong> Corridor antha circular distortion lo cheekatiga undi. Kani tight light lo... Door ki sfe feet dooram lo oka shadow (man's silhouette) kadal kunda ninchoni undi. Delivery boy vellipoledhu! Door bayate unnadu!
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan sudden ga venakki thirigi door ki support ga ninchuntadu. Swasa gattiga thweskuntadu.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2 italic">
+    Sudden ga... PHONE VIBRATE AVUTHUNDI (Bzzz... Bzzz...)
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan jaded ga phone tisi chusthadu. Screen paina Truecaller id: <strong class="text-red-500">"WATER SUPPLIER (Sri Sai Enterprises)"</strong> ani paduthundi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan bhayapaduthu call lift chesthadu. Phone ni chevi daggara pettukuntadu.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Voice thadabaduthu)<br>H-Hello?
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">WATER SUPPLIER (PHONE VOICE)</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    (Chala relaxed inka natural ga)<br>Hello, Vinay gaara sir? Flat 210? Sir, actual ga ee roju night delivery cheyalsina ma boy ki accident ayyindi sir. Hospital lo unnam. Mee delivery repu poddunna pampistham sir, em anukokandi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan body freeze aypothadu. Frame lo athanu shaking avvadam kanapadali.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Gontulo thadupudanam ledu, vone pothundi)<br>Anna... joke lu veyyaku. Ippude kadha okadu vachi water bubble dinchadu. Nuvve pampinchav anukoni lopaliki tisukunna.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">WATER SUPPLIER (PHONE VOICE)</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    (Surprised ga)<br>Memu evarni pampaledu sir! Ayina ma daggara unna bubble stocks anni company blue caps thone untayi. Ee madhya evado colony lo thappudu can lu thippi thiruguthunnadu anta... adokkati chusukondi sir. Call pettesta...
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2 italic">
+    Tuk... Tuk... Tuk... (Call disconnected sound).
+</div>
+
+<div class="bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl font-bold text-white tracking-wide uppercase mb-4 shadow-md mt-8">
+    SCENE 5: THE REVELATION & THE CLIMAX - INT. CHARAN'S ROOM - NIGHT
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan phone sudden ga chethi nunchi slip ayyi bed meeda paduthundi. Athani drusti kitchen moolana unna aa black tape water can meedhaki velthundi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    <strong class="text-white uppercase">AUDIO (EDITOR'S CUE):</strong> Background lo high-pitched Heartbeat BGM start avvali. Fast cuts matching with heartbeat.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: LOW ANGLE TRACKING SHOT. Camera floor level lo untundi. Charan steps slow ga can vaipu paduthunte camera venakki move avuthundi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan can daggara circles lo kurchuntadu. iPhone flashlight on chesthadu. Flash light ni aa plastic bubble transparent body meeda thidthadu.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: EXTREME CLOSE-UP (WITH IPHONE FLASH LIGHT). Light liquid lopaliki pass avvadam ledu. Water transparent ga ledu... <strong class="text-red-500">Thick dark RED (Blood) color lo undi.</strong> Bubble thopinna corners lo blood clots line ga kanapaduthunnayi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan sudden ga bhayantholana thoni venakki padipothadu.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">CHARAN</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Gattiga aravaleka, thwesa aaguthu)<br>Arey... Rey... Idhi... Blood...
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Athanu phone kosam bed vaipu chusthadu.
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: WHIP PAN SHOT (Sudden fast camera movement). Kitchen nunchi bed/balcony corridor vaipu fast ga camera thiruguthundi.
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Balcony corner cheekatlo nunchi... oka figure silent ga naduchukuntu room loki vasthundi. He is the <strong class="text-red-600 font-bold">STRANGER (Killer)</strong>. Chethilo maroka empty water can undi. Athani moham meeda psychotic smiles black light lo horror ga kanapaduthundi.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">STRANGER</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block italic">
+    (Chila prashanthanga, calm ga navvuthu)<br>Nenu techhina refill nachhindha? Dynamic ga undi kadha?
+</div>
+<div class="text-zinc-400 font-medium leading-relaxed my-4 text-base md:text-lg pl-2">
+    Charan venakki jaruguthu wall ki touch aypothadu. Escaping space ledu.
+</div>
+<div class="text-yellow-500 font-bold tracking-wide mt-4 block">STRANGER</div>
+<div class="text-zinc-200 pl-4 border-l-2 border-zinc-700 mb-4 block">
+    (Can ni kinda petti, pocket nunchi big cutter/knife tistu)<br>Ippudu... ee empty bubble lo ninnu nimpali!
+</div>
+<div class="bg-blue-950/40 border-l-4 border-blue-500 p-4 rounded-r-xl my-4 text-blue-300 font-medium italic text-base md:text-lg">
+    CAMERA ANGLE: DUTCH ANGLE (Tilted Frame). Killer sudden ga camera (Charan view) meedhaki direct ga jump chesthadu with knife.
+</div>
+<div class="text-red-600 font-black tracking-widest text-center my-6 block text-xl animate-pulse">SUDDEN CUT TO BLACK.</div>
+<div class="text-zinc-500 italic text-center my-4 block text-base font-semibold">AUDIO: Just sound of a struggle... a choke... and deep silence.</div>
+
+<div class="text-zinc-400 font-black tracking-[0.4em] text-center mt-12 block text-lg uppercase">[END CREDITS]</div>`,
+                likes: 45,
+                views: 230,
                 isLiked: false,
                 hidden: false,
                 image: ""
@@ -199,59 +368,15 @@
             localStorage.setItem('vinay_cloud_v1', JSON.stringify(stories));
         }
 
+        // --- MOBILE TRIPLE TAP TO LOGIN AS ADMIN ---
         let clickCount = 0;
         function handleSecretTap(e) {
-            if (document.getElementById('main-content').classList.contains('hidden')) return;
             clickCount++;
             if (clickCount === 3) {
                 clickCount = 0;
                 triggerAdminLogin();
             }
             setTimeout(() => { clickCount = 0; }, 1000);
-        }
-
-        function toggleAuthForms() {
-            const loginDiv = document.getElementById('login-form-div');
-            const registerDiv = document.getElementById('register-form-div');
-            loginDiv.classList.toggle('hidden');
-            registerDiv.classList.toggle('hidden');
-        }
-
-        document.getElementById('login-form').onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
-            const pass = document.getElementById('login-pass').value;
-            const user = registeredUsers.find(u => u.email === email && u.password === pass);
-            if (user) loginSession(user);
-            else alert("Invalid email or password.");
-        };
-
-        document.getElementById('register-form').onsubmit = function(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            const pass = document.getElementById('reg-pass').value;
-            const newUser = { name, age: 25, city: "Hyd", email, password: pass };
-            registeredUsers.push(newUser);
-            localStorage.setItem('vinay_site_users', JSON.stringify(registeredUsers));
-            loginSession(newUser);
-        };
-
-        function loginSession(user) {
-            currentUser = user;
-            document.getElementById('auth-page').classList.add('hidden');
-            document.getElementById('main-content').classList.remove('hidden');
-            document.getElementById('welcome-user').innerText = `Welcome, ${user.name}`;
-            renderStories(currentFilter);
-        }
-
-        function handleNavAction() { logout(); }
-        function logout() {
-            currentUser = null; isAdmin = false;
-            document.body.classList.remove('admin-mode');
-            document.getElementById('view-toggle').classList.add('hidden');
-            document.getElementById('main-content').classList.add('hidden');
-            document.getElementById('auth-page').classList.remove('hidden');
         }
 
         function triggerAdminLogin() {
@@ -265,12 +390,13 @@
         }
 
         function toggleAdmin() {
-            isAdmin = !isAdmin;
-            document.body.classList.toggle('admin-mode', isAdmin);
+            isAdmin = false;
+            document.body.classList.remove('admin-mode');
+            document.getElementById('view-toggle').classList.add('hidden');
             renderStories(currentFilter);
         }
 
-        function renderStories(filter = 'Serial Content') {
+        function renderStories(filter = 'Short Film Stories') {
             currentFilter = filter; 
             const userGrid = document.getElementById('story-grid');
             const adminContainer = document.getElementById('admin-lists-container');
@@ -350,10 +476,9 @@
             document.getElementById('home-page').classList.remove('active'); 
             document.getElementById('details-page').classList.add('active'); 
             
-            // --- Crucial Note: innerHTML facilitates color tags ---
             document.getElementById('details-content').innerHTML = `
                 <h1 class="text-3xl md:text-5xl font-black mb-6 uppercase italic underline decoration-red-600 text-white">${s.title}</h1>
-                <div class="leading-relaxed text-base md:text-xl">${s.story}</div>`; 
+                <div class="leading-relaxed text-base md:text-xl font-normal space-y-2 font-mono">${s.story}</div>`; 
             
             document.getElementById('like-count').innerText = s.likes || 0; 
             document.getElementById('view-count').innerText = s.views; 
@@ -364,15 +489,11 @@
         function showHome() { document.getElementById('details-page').classList.remove('active'); document.getElementById('home-page').classList.add('active'); renderStories(currentFilter); }
         function loadComments(title) { document.getElementById('comment-list').innerHTML = `<p class="text-zinc-600 uppercase text-[9px]">No feedback yet.</p>`; }
         
+        window.addEventListener('blur', () => document.getElementById('security-overlay').style.display = 'flex');
+        window.addEventListener('focus', () => document.getElementById('security-overlay').style.display = 'none');
+
         window.addEventListener('DOMContentLoaded', (event) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const source = urlParams.get('ref'); 
-            if ((source === 'instagram' || window.location.href.includes('ref=instagram')) && !currentUser) {
-                currentUser = { name: "Ad Reader", email: "guest@insta.com" };
-                document.getElementById('auth-page').classList.add('hidden');
-                document.getElementById('main-content').classList.remove('hidden');
-            }
-            renderStories('Serial Content');
+            renderStories('Short Film Stories');
         });
     </script>
 </body>
